@@ -1,37 +1,33 @@
 #include "PID.h"
+#include <iostream>
 
-/**
- * TODO: Complete the PID class. You may add any additional desired functions.
- */
+using std::cout;
+using std::endl;
 
 PID::PID() {}
 
 PID::~PID() {}
 
-void PID::Init(double Kp_, double Ki_, double Kd_) {
-  /**
-   * TODO: Initialize PID coefficients (and errors, if needed)
-   */
+void PID::Init(double Kp, double Ki, double Kd)
+{
+  Kp_ = Kp;
+  Ki_ = Ki;
+  Kd_ = Kd;
 
-  Kp = Kp_;
-  Ki = Ki_;
-  Kd = Kd_;
+  p_error_ = i_error_ = d_error_ = 0.0;
 
-  p_error = i_error = d_error = 0.0;
+  prev_cte_ = 0.0;
 }
 
-void PID::UpdateError(double cte) {
-  /**
-   * TODO: Update PID errors based on cte.
-   */
-  double
-  -pid.Kp * cte - pid.Kd * diff_cte - pid.Ki * int_cte;
-
+void PID::UpdateError(double cte)
+{
+  p_error_ = cte;
+  i_error_ += cte;
+  d_error_ = cte - prev_cte_;
+  prev_cte_ = cte;
 }
 
-double PID::TotalError() {
-  /**
-   * TODO: Calculate and return the total error
-   */
-  return 0.0;  // TODO: Add your total error calc here!
+double PID::TotalError()
+{
+  return Kp_ * p_error_ + Kd_ * d_error_ + Ki_ * i_error_;
 }
