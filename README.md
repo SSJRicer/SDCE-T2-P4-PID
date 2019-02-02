@@ -3,6 +3,59 @@ Self-Driving Car Engineer Nanodegree Program
 
 ---
 
+## Rubric Criteria
+
+### Compilation
+#### "Your code should compile."
+
+The code compiles without any errors with cmake & make.
+
+### Implementation
+#### "The PID procedure follows what was taught in the lessons."
+
+The algorithm follows exactly what I learned in the lessons:
+* Setting the gain (K) of each component via **PID::Init**.
+* Calculating the error of each component with the given CTE via **PID:UpdateError**.
+* Setting the steering angle via **PID::TotalError**.
+
+### Reflection
+#### "Describe the effect each of the P, I, D components had in your implementation."
+
+The **proportional** (**P**) component impacts the steering directly in that it steers the vehicle negative to the CTE, causing
+a sinusoidal-like movement around the center of the lane.
+* The higher the CTE is on one side means that the vehicle steers harder towards the other side.
+* The lower the CTE is on one side means that the vehicle steers slightly towards the other side.
+
+[P component only](https://github.com/SSJRicer/SDCE-T2-P4-PID/blob/master/Videos/P_PID.mp4)
+
+The **integral** (**I**) component deals with the bias in the simulator, but after testing with it for a bit,
+I saw that the bias is either non-existent or very marginal. In fact, it makes the vehicle drives in circles and off
+the lane.
+
+[I component only](https://github.com/SSJRicer/SDCE-T2-P4-PID/blob/master/Videos/I_PID.mp4)
+
+The **differential** (**D**) component handles the overshooting tendencies of the P component.
+
+[D component only](https://github.com/SSJRicer/SDCE-T2-P4-PID/blob/master/Videos/D_PID.mp4)
+  
+
+#### "Describe how the final hyperparameters were chosen."
+
+I have manually tuned the hyperparameters with my ultimate technique, Trial&Error-no-Jutsu! :).
+1. Started with going straight (via steer_value = 0) to see how it works.
+2. I added a P component (which is the major player here) and played with it until it got to a point where it rotates
+   slightly from side to side around the center of the lane.
+3. I added the D component and played with it until it helped the vehicle converge more smoothly around the center.
+4. I tried adding the I component to handle bias, but saw that it did little to no effect (except running in circles).
+5. I ended with sticking to just a PD controller with **(Kp = 0.17, Ki = 0.0, Kd = 3.0)**.
+
+### Simulation
+#### "The vehicle must successfully drive a lap around the track."
+
+The vehicle does indeed successfully drive a lap without rolling over any surfaces as seen in the **video**.
+
+---
+
 ## Dependencies
 
 * cmake >= 3.5
