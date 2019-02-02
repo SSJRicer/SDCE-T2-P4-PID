@@ -21,13 +21,18 @@ void PID::Init(double Kp, double Ki, double Kd)
 
 void PID::UpdateError(double cte)
 {
+  // Proportional error (= CTE):
   p_error_ = cte;
+
+  // Integral error (sum of all CTE):
   i_error_ += cte;
+
+  // Differential error (delta CTE):
   d_error_ = cte - prev_cte_;
   prev_cte_ = cte;
 }
 
 double PID::TotalError()
 {
-  return Kp_ * p_error_ + Kd_ * d_error_ + Ki_ * i_error_;
+  return -Kp_ * p_error_ - Kd_ * d_error_ - Ki_ * i_error_;
 }
