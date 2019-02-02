@@ -46,6 +46,7 @@ class PID {
   double Ki_;
   double Kd_;
 
+  // Storing previous CTE for differential error calculation:
   double prev_cte_;
 };
 
